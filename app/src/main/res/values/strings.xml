@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MercadoLibre Product Search</string>
+    <string name="search_hint">Nombre del producto</string>
 </resources>
