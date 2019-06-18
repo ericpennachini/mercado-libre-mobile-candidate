@@ -10,8 +10,8 @@
         <!--app:actionViewClass="android.widget.SearchView"/>-->
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_actionbar_settings"
-        android:title="Configuración"
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_info"
+        android:title="Acerca de"
         app:showAsAction="ifRoom"/>
 </menu>

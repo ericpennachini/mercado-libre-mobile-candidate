@@ -14,28 +14,18 @@ public class Product {
     private String currencyId;
     private String condition;
     private int availableQuantity;
+    private int soldQuantity;
+    private boolean freeShipping;
     private String description;
     private String thumbnail;
+    private String warranty;
+    private int maxInstallmentsAmount;
+    private ArrayList<ProductAttribute> attributes;
     private ArrayList<ProductPicture> pictureList;
 
     public Product() {
         pictureList = new ArrayList<ProductPicture>();
-    }
-
-    public Product(String id, String title, String subtitle, int sellerId, String categoryId, Double price, Double basePrice, Double originalPrice, String currencyId, String condition, int availableQuantity, String description, ArrayList<ProductPicture> pictureList) {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.sellerId = sellerId;
-        this.categoryId = categoryId;
-        this.price = price;
-        this.basePrice = basePrice;
-        this.originalPrice = originalPrice;
-        this.currencyId = currencyId;
-        this.condition = condition;
-        this.availableQuantity = availableQuantity;
-        this.description = description;
-        this.pictureList = pictureList;
+        attributes = new ArrayList<ProductAttribute>();
     }
 
     public String getTitle() {
@@ -148,5 +138,45 @@ public class Product {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getSoldQuantity() {
+        return soldQuantity;
+    }
+
+    public void setSoldQuantity(int soldQuantity) {
+        this.soldQuantity = soldQuantity;
+    }
+
+    public boolean isFreeShipping() {
+        return freeShipping;
+    }
+
+    public void setFreeShipping(boolean freeShipping) {
+        this.freeShipping = freeShipping;
+    }
+
+    public String getWarranty() {
+        return warranty;
+    }
+
+    public void setWarranty(String warranty) {
+        this.warranty = warranty;
+    }
+
+    public ArrayList<ProductAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(ArrayList<ProductAttribute> attributes) {
+        this.attributes = attributes;
+    }
+
+    public int getMaxInstallmentsAmount() {
+        return maxInstallmentsAmount;
+    }
+
+    public void setMaxInstallmentsAmount(int maxInstallmentsAmount) {
+        this.maxInstallmentsAmount = maxInstallmentsAmount;
     }
 }

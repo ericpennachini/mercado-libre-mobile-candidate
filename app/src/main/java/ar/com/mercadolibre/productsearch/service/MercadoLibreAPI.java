@@ -1,25 +1,9 @@
 package ar.com.mercadolibre.productsearch.service;
 
-
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.widget.ProgressBar;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.cert.Certificate;
 import java.util.HashMap;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLPeerUnverifiedException;
-
-import ar.com.mercadolibre.productsearch.model.Product;
 
 public class MercadoLibreAPI {
 
@@ -27,8 +11,15 @@ public class MercadoLibreAPI {
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
 
-    // public static Object RESULT;
-
+    /**
+     * Método static que realiza una llamada a la API de MercadoLibre con los parámetros indicados
+     * y devuelve un objeto InputStream
+     * @param endpoint Endpoint específico de la API
+     * @param httpMethod Método HTTP (GET o POST)
+     * @param parameters Objeto HashMap con los parámetros que se usarán en la llamada
+     * @return InputStream con los datos obtenidos
+     * @throws Exception
+     */
     public static InputStream call(String endpoint, String httpMethod, HashMap<String, String> parameters) throws Exception {
         HttpURLConnection connection = null;
         String urlString = BASE_URL + endpoint;
@@ -58,42 +49,20 @@ public class MercadoLibreAPI {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(httpMethod);
             connection.setRequestProperty("Content-Type", "application/json");
+            InputStream inputStream;
+            int status = connection.getResponseCode();
+            if (status >= HttpURLConnection.HTTP_BAD_REQUEST) {
+                inputStream = connection.getErrorStream();
+            } else {
+                inputStream = connection.getInputStream();
+            }
 
-            InputStream inputStream = connection.getInputStream();
-            // cuando se retorna error de la API, analizar el objeto devuelto
             return inputStream;
 
-
-            // System.out.println(inputStream.toString());
         } catch (Exception ex) {
             throw ex;
         }
 
     }
-
-//    private static class HTTPAsyncTask extends AsyncTask<String, Void, Void> {
-//
-//
-//        @Override
-//        protected Void doInBackground(String... strings) {
-//            try {
-//                String urlString = strings[0];
-//                URL url = new URL(urlString);
-//                HttpURLConnection connection = null;
-//                connection = (HttpURLConnection) url.openConnection();
-//                connection.setRequestMethod(strings[1]);
-//                connection.setRequestProperty("Content-Type", "application/json");
-//
-//
-//                InputStream inputStream = connection.getInputStream();
-//                RESULT = inputStream.toString();
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            return null;
-//        }
-//    }
 
 }
