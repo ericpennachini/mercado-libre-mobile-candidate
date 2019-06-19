@@ -141,7 +141,7 @@ public class SearchService {
                 ProductAttribute attribute = new ProductAttribute(
                         attributeJson.getString("id"),
                         attributeJson.getString("name"),
-                        attributeJson.getString("value_name")
+                        (attributeJson.getString("value_name") == "null" ? " - " : attributeJson.getString("value_name"))
                 );
                 productObj.getAttributes().add(attribute);
             }

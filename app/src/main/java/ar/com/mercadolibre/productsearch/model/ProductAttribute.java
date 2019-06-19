@@ -1,6 +1,8 @@
 package ar.com.mercadolibre.productsearch.model;
 
-public class ProductAttribute {
+import java.io.Serializable;
+
+public class ProductAttribute implements Serializable {
     private String id;
     private String name;
     private String value;

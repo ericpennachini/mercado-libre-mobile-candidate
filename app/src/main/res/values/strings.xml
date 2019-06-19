@@ -10,5 +10,6 @@
     <string name="no_internet_connection">No hay conexión a Internet</string>
     <string name="free_shipping">Envío gratis</string>
     <string name="btn_get_product_description">Descripción del producto</string>
+    <string name="btn_show_product_attributes">Características</string>
     <string name="about_description">Aplicación desarrollada sólo con propósitos de prueba</string>
 </resources>

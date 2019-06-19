@@ -2,12 +2,17 @@ package ar.com.mercadolibre.productsearch.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.icu.util.Measure;
+import android.icu.util.MeasureUnit;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -55,12 +60,14 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
     private TextView txvItemWarranty;
     private View dividerDet2;
     private View dividerDet3;
-    private TextView txvItemAttributesTitle;
-    private LinearLayout lstItemAttributes;
+    private Button btnShowAttributes;
+//    private TextView txvItemAttributesTitle;
+//    private ListView lstItemAttributes;
     private ImageButton btnPrevPicture;
     private ImageButton btnNextPicture;
     private int currentPictureIndex;
     private ArrayList<ProductPicture> picturesList;
+    private ArrayList<ProductAttribute> attributesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,7 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         itemID = getIntent().getExtras().getString("selectedItemID");
         currentPictureIndex = 0;
         picturesList = new ArrayList<ProductPicture>();
+        attributesList = new ArrayList<ProductAttribute>();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Detalle de producto");
@@ -92,6 +100,8 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         }
         return true;
     }
+
+
 
     @Override
     public void initializeLayoutElements() {
@@ -131,8 +141,9 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         txvItemWarranty = findViewById(R.id.txvItemWarranty);
         dividerDet2 = findViewById(R.id.dividerDet2);
         dividerDet3 = findViewById(R.id.dividerDet3);
-        txvItemAttributesTitle = findViewById(R.id.txvItemAttributesTitle);
-        lstItemAttributes = findViewById(R.id.lstItemAttributes);
+//        txvItemAttributesTitle = findViewById(R.id.txvItemAttributesTitle);
+//        lstItemAttributes = findViewById(R.id.lstItemAttributes);
+        btnShowAttributes = findViewById(R.id.btnShowProductAttributes);
         btnPrevPicture = findViewById(R.id.btnPrevPicture);
         btnPrevPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,8 +205,9 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         txvItemWarranty.setVisibility(View.GONE);
         dividerDet2.setVisibility(View.GONE);
         dividerDet3.setVisibility(View.GONE);
-        txvItemAttributesTitle.setVisibility(View.GONE);
-        lstItemAttributes.setVisibility(View.GONE);
+        btnShowAttributes.setVisibility(View.GONE);
+//        txvItemAttributesTitle.setVisibility(View.GONE);
+//        lstItemAttributes.setVisibility(View.GONE);
         btnNextPicture.setVisibility(View.GONE);
         btnPrevPicture.setVisibility(View.GONE);
         if (!Utils.checkNetworkConnection(getApplicationContext())) {
@@ -225,8 +237,8 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         txvItemWarranty.setVisibility(View.VISIBLE);
         dividerDet2.setVisibility(View.VISIBLE);
         dividerDet3.setVisibility(View.VISIBLE);
-        txvItemAttributesTitle.setVisibility(View.VISIBLE);
-        lstItemAttributes.setVisibility(View.VISIBLE);
+//        txvItemAttributesTitle.setVisibility(View.VISIBLE);
+//        lstItemAttributes.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -326,20 +338,34 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
 
                 txvItemWarranty.setText(product.getWarranty() == "" ? "Sin garantía" : product.getWarranty());
 
+//                if (product.getAttributes().size() > 0) {
+//                    lstItemAttributes.setVisibility(View.VISIBLE);
+//                    txvItemAttributesTitle.setVisibility(View.VISIBLE);
+//                    ArrayList<Object> attrList = new ArrayList<Object>();
+//                    attrList.addAll(product.getAttributes());
+//                    AttributeListAdapter attrAdapter = new AttributeListAdapter(getApplicationContext(), attrList);
+//                    lstItemAttributes.setAdapter(attrAdapter);
+//                    attrAdapter.notifyDataSetChanged();
+//                } else {
+//                    lstItemAttributes.setVisibility(View.GONE);
+//                    txvItemAttributesTitle.setVisibility(View.GONE);
+//                }
+
                 if (product.getAttributes().size() > 0) {
-                    lstItemAttributes.setVisibility(View.VISIBLE);
-                    txvItemAttributesTitle.setVisibility(View.VISIBLE);
-                    for (ProductAttribute attribute: product.getAttributes()) {
-                        View view = View.inflate(getApplicationContext(), R.layout.attribute_item, null);
-                        TextView txvAttrName = view.findViewById(R.id.txvAttrName);
-                        txvAttrName.setText(attribute.getName());
-                        TextView txvAttrValue = view.findViewById(R.id.txvAttrValue);
-                        txvAttrValue.setText(attribute.getValue());
-                        lstItemAttributes.addView(view);
-                    }
+                    btnShowAttributes.setVisibility(View.VISIBLE);
+                    attributesList.addAll(product.getAttributes());
+                    btnShowAttributes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("product_attributes", attributesList);
+                            Intent intent = new Intent(getApplicationContext(), ProductAttributesActivity.class);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
                 } else {
-                    lstItemAttributes.setVisibility(View.GONE);
-                    txvItemAttributesTitle.setVisibility(View.GONE);
+                    btnShowAttributes.setVisibility(View.GONE);
                 }
 
                 endActivityWork();

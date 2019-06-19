@@ -9,8 +9,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
 
         <ProgressBar
             android:id="@+id/progressBar2"
@@ -183,14 +182,38 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dividerDet" />
 
+        <View
+            android:id="@+id/dividerDet3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnGetProductDescription" />
+
+        <Button
+            android:id="@+id/btnShowProductAttributes"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_arrow_r_dark"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/btn_show_product_attributes"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dividerDet3" />
+
         <ImageView
             android:id="@+id/imgNoConnectionDet"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="36dp"
-            android:visibility="gone"
             android:layout_marginEnd="8dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -204,9 +227,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="sans-serif-thin"
-            android:visibility="gone"
             android:text="@string/no_internet_connection"
             android:textColor="@color/colorAccent"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -219,8 +242,8 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:visibility="gone"
             android:text="Reintentar"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txvNoConnectionDet" />
@@ -230,7 +253,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="sans-serif-thin"
             android:text="Garantía"
@@ -248,8 +271,9 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnGetProductDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/btnShowProductAttributes" />
 
         <TextView
             android:id="@+id/txvItemWarranty"
@@ -258,51 +282,38 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txvItemWarrantyTitle" />
 
-        <View
-            android:id="@+id/dividerDet3"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txvItemWarranty" />
+        <!--<View-->
+            <!--android:id="@+id/dividerDet3"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:background="?android:attr/listDivider"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/txvItemWarranty" />-->
 
-        <TextView
-            android:id="@+id/txvItemAttributesTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
-            android:fontFamily="sans-serif-thin"
-            android:text="Detalles"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividerDet3" />
-
-        <LinearLayout
-            android:id="@+id/lstItemAttributes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txvItemAttributesTitle">
-
-        </LinearLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/txvItemAttributesTitle"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="12dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:fontFamily="sans-serif-thin"-->
+            <!--android:text="Detalles"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="24sp"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.0"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/dividerDet3" />-->
 
         <ImageButton
             android:id="@+id/btnPrevPicture"
@@ -331,19 +342,16 @@
 
         <!--<ListView-->
             <!--android:id="@+id/lstItemAttributes"-->
-            <!--android:layout_width="match_parent"-->
+            <!--android:layout_width="0dp"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_marginStart="16dp"-->
             <!--android:layout_marginTop="8dp"-->
             <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginBottom="16dp"-->
             <!--android:choiceMode="none"-->
             <!--android:isScrollContainer="false"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
             <!--app:layout_constraintEnd_toEndOf="parent"-->
             <!--app:layout_constraintStart_toStartOf="parent"-->
             <!--app:layout_constraintTop_toBottomOf="@+id/txvItemAttributesTitle" />-->
-
 
 
     </android.support.constraint.ConstraintLayout>

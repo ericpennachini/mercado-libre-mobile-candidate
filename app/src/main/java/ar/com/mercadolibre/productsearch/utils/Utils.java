@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 public class Utils {
@@ -64,5 +66,11 @@ public class Utils {
         } else {
             return networkInfo.isConnected();
         }
+    }
+
+    public static int convertPXtoDP(Context context, int px) {
+//        return (px / (context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return (Math.round(px / (context.getResources().getDisplayMetrics().density)));
+//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, context.getResources().getDisplayMetrics());
     }
 }
