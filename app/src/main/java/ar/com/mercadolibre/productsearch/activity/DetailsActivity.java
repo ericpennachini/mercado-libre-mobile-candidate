@@ -61,8 +61,6 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
     private View dividerDet2;
     private View dividerDet3;
     private Button btnShowAttributes;
-//    private TextView txvItemAttributesTitle;
-//    private ListView lstItemAttributes;
     private ImageButton btnPrevPicture;
     private ImageButton btnNextPicture;
     private int currentPictureIndex;
@@ -141,8 +139,6 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         txvItemWarranty = findViewById(R.id.txvItemWarranty);
         dividerDet2 = findViewById(R.id.dividerDet2);
         dividerDet3 = findViewById(R.id.dividerDet3);
-//        txvItemAttributesTitle = findViewById(R.id.txvItemAttributesTitle);
-//        lstItemAttributes = findViewById(R.id.lstItemAttributes);
         btnShowAttributes = findViewById(R.id.btnShowProductAttributes);
         btnPrevPicture = findViewById(R.id.btnPrevPicture);
         btnPrevPicture.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +202,6 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         dividerDet2.setVisibility(View.GONE);
         dividerDet3.setVisibility(View.GONE);
         btnShowAttributes.setVisibility(View.GONE);
-//        txvItemAttributesTitle.setVisibility(View.GONE);
-//        lstItemAttributes.setVisibility(View.GONE);
         btnNextPicture.setVisibility(View.GONE);
         btnPrevPicture.setVisibility(View.GONE);
         if (!Utils.checkNetworkConnection(getApplicationContext())) {
@@ -237,8 +231,6 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
         txvItemWarranty.setVisibility(View.VISIBLE);
         dividerDet2.setVisibility(View.VISIBLE);
         dividerDet3.setVisibility(View.VISIBLE);
-//        txvItemAttributesTitle.setVisibility(View.VISIBLE);
-//        lstItemAttributes.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -269,10 +261,8 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
 
         @Override
         protected void onPostExecute(Product product) {
-            // showElementsHideProgressBar();
             if (product == null) {
                 Utils.showToast(getApplicationContext(), "Error al recuperar el producto", Toast.LENGTH_LONG);
-                //  ver si mostrar el problema de conexión
                 pb.setVisibility(View.GONE);
                 showNoConnectionStatus();
             } else {
@@ -337,19 +327,6 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
                 txvItemDetAvailable.setText(product.getAvailableQuantity() + (product.getAvailableQuantity() == 1 ? " disponible" : " disponibles"));
 
                 txvItemWarranty.setText(product.getWarranty() == "" ? "Sin garantía" : product.getWarranty());
-
-//                if (product.getAttributes().size() > 0) {
-//                    lstItemAttributes.setVisibility(View.VISIBLE);
-//                    txvItemAttributesTitle.setVisibility(View.VISIBLE);
-//                    ArrayList<Object> attrList = new ArrayList<Object>();
-//                    attrList.addAll(product.getAttributes());
-//                    AttributeListAdapter attrAdapter = new AttributeListAdapter(getApplicationContext(), attrList);
-//                    lstItemAttributes.setAdapter(attrAdapter);
-//                    attrAdapter.notifyDataSetChanged();
-//                } else {
-//                    lstItemAttributes.setVisibility(View.GONE);
-//                    txvItemAttributesTitle.setVisibility(View.GONE);
-//                }
 
                 if (product.getAttributes().size() > 0) {
                     btnShowAttributes.setVisibility(View.VISIBLE);
