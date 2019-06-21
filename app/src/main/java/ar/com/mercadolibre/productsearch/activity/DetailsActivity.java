@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -146,8 +147,8 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
             public void onClick(View v) {
                 currentPictureIndex--;
                 try {
-                    UrlImageViewHelper.setUrlDrawable(imageView, picturesList.get(currentPictureIndex).getUrl());
-                } catch (Exception e) {
+                    Picasso.get().load(picturesList.get(currentPictureIndex).getUrl()).into(imageView);
+                } catch (Exception ex) {
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_image_default));
                 }
                 if (currentPictureIndex == 0) {
@@ -166,8 +167,8 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
             public void onClick(View v) {
                 currentPictureIndex++;
                 try {
-                    UrlImageViewHelper.setUrlDrawable(imageView, picturesList.get(currentPictureIndex).getUrl());
-                } catch (Exception e) {
+                    Picasso.get().load(picturesList.get(currentPictureIndex).getUrl()).into(imageView);
+                } catch (Exception ex) {
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_image_default));
                 }
                 if (currentPictureIndex == picturesList.size() - 1) {
@@ -267,19 +268,19 @@ public class DetailsActivity extends AppCompatActivity implements ICustomActivit
                 showNoConnectionStatus();
             } else {
                 // tratamiento de imágenes
+                currentPictureIndex = 0;
+                btnPrevPicture.setEnabled(false);
+                picturesList.addAll(product.getPictureList());
+                if (product.getPictureList().size() == 1) {
+                    btnPrevPicture.setVisibility(View.GONE);
+                    btnNextPicture.setVisibility(View.GONE);
+                } else {
+                    btnPrevPicture.setVisibility(View.VISIBLE);
+                    btnNextPicture.setVisibility(View.VISIBLE);
+                }
                 try {
-                    UrlImageViewHelper.setUrlDrawable(imageView, product.getPictureList().get(0).getUrl());
-                    currentPictureIndex = 0;
-                    btnPrevPicture.setEnabled(false);
-                    picturesList.addAll(product.getPictureList());
-                    if (product.getPictureList().size() == 1) {
-                        btnPrevPicture.setVisibility(View.GONE);
-                        btnNextPicture.setVisibility(View.GONE);
-                    } else {
-                        btnPrevPicture.setVisibility(View.VISIBLE);
-                        btnNextPicture.setVisibility(View.VISIBLE);
-                    }
-                } catch (Exception e) {
+                    Picasso.get().load(product.getPictureList().get(0).getUrl()).into(imageView);
+                } catch (Exception ex) {
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_image_default));
                 }
 
