@@ -17,6 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ar.com.mercadolibre.productsearch.interfaces.SearchServiceRetroFit;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 
 import ar.com.mercadolibre.productsearch.R;
@@ -26,7 +30,12 @@ import ar.com.mercadolibre.productsearch.model.Product;
 import ar.com.mercadolibre.productsearch.model.SearchResult;
 import ar.com.mercadolibre.productsearch.service.SearchService;
 import ar.com.mercadolibre.productsearch.utils.Utils;
-
+import java.util.HashMap;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultsActivity extends AppCompatActivity implements ICustomActivity {
     private String queryText;
@@ -139,12 +148,75 @@ public class ResultsActivity extends AppCompatActivity implements ICustomActivit
             fabNext.show();
             fabNext.setEnabled(false);
             fabPrev.setEnabled(false);
+            Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+            Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.mercadolibre.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+            SearchServiceRetroFit service = retrofit.create(SearchServiceRetroFit.class);
+
+            HashMap<String, String> parameters = new HashMap<String, String>();
+            parameters.put("q", queryText);
+            if (searchCurrent != null) {
+                parameters.put("offset", String.valueOf(searchCurrent.getPagingOffset()));
+                parameters.put("limit", String.valueOf(searchCurrent.getPagingLimit()));
+            }
+
+            Call<SearchResult> call = service.getProductsByNameExample(parameters);
+            call.enqueue(new Callback<SearchResult>() {
+                @Override
+                public void onResponse(final Call<SearchResult> call, final Response<SearchResult> response) {
+                    switch (response.code()) {
+                    case 200:
+                        TextView txvNoResults = findViewById(R.id.txvNoResults);
+                        SearchResult searchResult = response.body();
+                        searchCurrent = searchResult;
+
+                        ArrayList<Product> products = searchResult.getResultsList();
+
+                        if (!products.isEmpty()) {
+                            // Se controla la cantidad total, ya que si es más de 1000 la API
+                            // pone una restricción al operar sin ACCESS_TOKEN
+                            int maxPages = (searchCurrent.getPagingTotal() > 1000 ? 1000 : searchCurrent.getPagingTotal());
+                            totalPages = maxPages / searchCurrent.getPagingLimit();
+                            if (searchCurrent.getPagingPrimaryResults() % searchCurrent.getPagingLimit() > 0) {
+                                totalPages++;
+                            }
+                            ActionBar actionBar = getSupportActionBar();
+                            actionBar.setSubtitle(currentPage + " de " + totalPages);
+                            lstProductSearchResults.setVisibility(View.VISIBLE);
+                            txvNoResults.setVisibility(View.GONE);
+                            ArrayList<Object> productList = new ArrayList<Object>();
+                            productList.addAll(products);
+                            ProductListAdapter productListAdapter = new ProductListAdapter(getApplicationContext(), productList);
+                            lstProductSearchResults.setAdapter(productListAdapter);
+                            productListAdapter.notifyDataSetChanged();
+                        } else {
+                            lstProductSearchResults.setVisibility(View.GONE);
+                            txvNoResults.setVisibility(View.VISIBLE);
+                            txvNoResults.setText(getResources().getString(R.string.search_no_results));
+                        }
+
+                        endActivityWork();
+                        break;
+                    }
+                }
+
+                @Override
+                public void onFailure(final Call<SearchResult> call, final Throwable t) {
+
+                }
+            });
+            /*
             try {
                 AsyncSearch asyncSearch = new AsyncSearch();
                 asyncSearch.execute();
             } catch (Exception e) {
                 Utils.showDialog(getApplicationContext(), "No se pudo iniciar la búsqueda", "Error");
             }
+             */
         }
     }
 
@@ -179,6 +251,7 @@ public class ResultsActivity extends AppCompatActivity implements ICustomActivit
         txvNoConnection.setVisibility(View.GONE);
         btnRetrySearch.setVisibility(View.GONE);
     }
+
 
     private class AsyncSearch extends AsyncTask<Void, Void, SearchResult> {
 
